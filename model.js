@@ -13,6 +13,7 @@ model2048 = {
     "left": [ [0,1,2,3], [4,5,6,7], [8,9,10,11], [12,13,14,15] ],
   },
 
+  rowChanged: false,
 
   init: function(  ) {
     for( var i = 0; i < this.numSquares; i++ ) {
@@ -34,7 +35,8 @@ model2048 = {
 
   move: function( direction ) {
     this.updateGrid(direction);
-    this.insertRandomTile();
+    if( this.rowChanged ) this.insertRandomTile();
+    this.rowChanged = false;
   },
 
   updateGrid: function(direction){
@@ -62,6 +64,9 @@ model2048 = {
       }
     }
     workingArr = workingArr.filter( notZero );
+    for( var i = 0; i < workingArr.length; i++ ) {
+      if( arr[i] !== workingArr[i] ) this.rowChanged = true;
+    }
     return workingArr;
   },
 
