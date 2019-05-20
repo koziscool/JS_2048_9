@@ -32,4 +32,37 @@ model2048 = {
     this.values[ zeroes[rand] ] = newValue;
   },
 
+  move: function( direction ) {
+    this.updateGrid(direction);
+    this.insertRandomTile();
+  },
+
+  updateGrid: function(direction){
+    var indexes = this.rowIndexes[direction];
+    var that = this;
+    for( var i = 0; i < indexes.length ; i++ ) {
+      var arr = indexes[i];
+      var currentRow = arr.map( function(n){
+        return that.values[n];
+      } );
+      var newRow = this.collapseRow( currentRow );
+      for( ai = 0; ai < arr.length; ai++ ) {
+        this.values[ arr[ai] ] = ( newRow[ai] ? newRow[ai] : 0 );
+      }
+    }
+  },
+
+  collapseRow: function( arr ) {
+    var notZero = function(n) { return n !== 0; };
+    var workingArr = arr.filter( notZero );
+    for( var i = 0; i < workingArr.length - 1; i++ ) {
+      if( workingArr[i] === workingArr[i+1] ){
+        workingArr[i] *= 2;
+        workingArr[i+1] = 0;
+      }
+    }
+    workingArr = workingArr.filter( notZero );
+    return workingArr;
+  },
+
 }

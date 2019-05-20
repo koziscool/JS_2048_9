@@ -3,10 +3,11 @@ view2048 = {
 
   model: model2048,
   colors: [ "papayawhip", "darkkhaki", "coral", "lime", "dodgerblue", 
-    "mediumblue", "darkred", "purple", "darkbrown", "black", "orange" ],
+    "mediumblue", "darkred", "purple", "green", "brown", "black", "orange" ],
 
   init: function(  ) {
     this.update();
+    this.addEventHandler();
   },
 
   update: function(){
@@ -22,5 +23,17 @@ view2048 = {
       this.$grid.append($square);
     }
   },
+
+  addEventHandler: function(  ) {
+    var that = this;
+    window.addEventListener( "keydown", function(e){
+      if( e.keyCode === 37 ) that.model.move("left");
+      if( e.keyCode === 38 ) that.model.move("up");
+      if( e.keyCode === 39 ) that.model.move("right");
+      if( e.keyCode === 40 ) that.model.move("down");
+      that.update();
+    } )
+  },
+
 
 }
